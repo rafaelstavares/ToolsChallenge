@@ -5,11 +5,18 @@ public class TransacaoDTO {
 	private long id;
 	
 	private String cartao;
-
-	public TransacaoDTO(long id, String cartao) {
+	
+	private DescricaoDto descricaoDto;
+	
+	private FormaPagamentoDto formaPagamentoDto;
+	
+	
+	public TransacaoDTO(long id, String cartao, DescricaoDto descricaoDto, FormaPagamentoDto formaPagamentoDto) {
 		super();
 		this.id = id;
 		this.cartao = cartao;
+		this.descricaoDto = descricaoDto;
+		this.formaPagamentoDto = formaPagamentoDto;
 	}
 
 	public TransacaoDTO() {
@@ -30,6 +37,22 @@ public class TransacaoDTO {
 
 	public void setCartao(String cartao) {
 		this.cartao = cartao;
+	}
+
+	public DescricaoDto getDescricaoDto() {
+		return descricaoDto;
+	}
+
+	public void setDescricaoDto(DescricaoDto descricaoDto) {
+		this.descricaoDto = descricaoDto;
+	}
+
+	public FormaPagamentoDto getFormaPagamentoDto() {
+		return formaPagamentoDto;
+	}
+
+	public void setFormaPagamentoDto(FormaPagamentoDto formaPagamentoDto) {
+		this.formaPagamentoDto = formaPagamentoDto;
 	}
 	
 	
