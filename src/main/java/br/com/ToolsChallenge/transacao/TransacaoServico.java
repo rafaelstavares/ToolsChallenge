@@ -38,9 +38,9 @@ public class TransacaoServico {
 		return transacao;
 	}
 
-	public Transacao findId(long id) {
-
-		return transacaoRepositorio.getById(id);
+	public Transacao buscarPorId(Long id) {
+		transacao = transacaoRepositorio.buscarPorId(id);
+		return transacao;
 	};
 
 }

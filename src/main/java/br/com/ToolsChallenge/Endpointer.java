@@ -1,13 +1,13 @@
 package br.com.ToolsChallenge;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.function.EntityResponse;
 
 import br.com.ToolsChallenge.dto.DescricaoDto;
 import br.com.ToolsChallenge.dto.FormaPagamentoDto;
@@ -44,12 +44,17 @@ public class Endpointer {
 	return ResponseEntity.ok().body(pagamentoDto);
 	}
 	
-	@PostMapping("/transacao2")
-	public ResponseEntity<PagamentoDto> addPagamento(@RequestBody Transacao t) {
+	@GetMapping("/pagamento")
+	public ResponseEntity<PagamentoDto> addPagamento(@RequestParam Long id) {
+		transacao = transacaoServico.buscarPorId(id);
 		PagamentoDto pagamentoDto = new PagamentoDto();
 		TransacaoDTO transacaoDTO = new TransacaoDTO();
-		transacaoDTO.setCartao(t.getCartao());
-		transacaoDTO.setId(t.getId());
+		montarDescricaoDto(transacao);
+		montaFormaPagamentoDto(transacao);
+		transacaoDTO.setCartao(transacao.getCartao());
+		transacaoDTO.setId(transacao.getId());
+		transacaoDTO.setDescricaoDto(descricaoDto);
+		transacaoDTO.setFormaPagamentoDto(formaPagamentoDto);
 		pagamentoDto.setTransacao(transacaoDTO);
 	return ResponseEntity.ok().body(pagamentoDto);
 	}
