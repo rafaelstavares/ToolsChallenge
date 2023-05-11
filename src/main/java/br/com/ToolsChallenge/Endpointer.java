@@ -1,5 +1,8 @@
 package br.com.ToolsChallenge;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +32,8 @@ public class Endpointer {
 	
 	FormaPagamentoDto formaPagamentoDto;
 	
+	List<Transacao> lista;
+	
 	@PostMapping("/pagamento")
 	public ResponseEntity<PagamentoDto> addTransacao(@RequestBody Transacao t) {
 		PagamentoDto pagamentoDto = new PagamentoDto();
@@ -45,7 +50,7 @@ public class Endpointer {
 	}
 	
 	@GetMapping("/pagamento")
-	public ResponseEntity<PagamentoDto> addPagamento(@RequestParam Long id) {
+	public ResponseEntity<PagamentoDto> buscarPagamentoId(@RequestParam Long id) {
 		transacao = transacaoServico.buscarPorId(id);
 		PagamentoDto pagamentoDto = new PagamentoDto();
 		TransacaoDTO transacaoDTO = new TransacaoDTO();
@@ -57,6 +62,25 @@ public class Endpointer {
 		transacaoDTO.setFormaPagamentoDto(formaPagamentoDto);
 		pagamentoDto.setTransacao(transacaoDTO);
 	return ResponseEntity.ok().body(pagamentoDto);
+	}
+	
+	@GetMapping("/pagamento/todos")
+	public ResponseEntity<List<PagamentoDto>> listarTodos() {
+	List<PagamentoDto> listaDto = new ArrayList<>();
+		lista = transacaoServico.listarTodos();
+		for (Transacao transacao : lista) {
+			PagamentoDto pagamentoDto = new PagamentoDto();
+			TransacaoDTO transacaoDTO = new TransacaoDTO();
+			montarDescricaoDto(transacao);
+			montaFormaPagamentoDto(transacao);
+			transacaoDTO.setCartao(transacao.getCartao());
+			transacaoDTO.setId(transacao.getId());
+			transacaoDTO.setDescricaoDto(descricaoDto);
+			transacaoDTO.setFormaPagamentoDto(formaPagamentoDto);
+			pagamentoDto.setTransacao(transacaoDTO);
+			listaDto.add(pagamentoDto);
+		}
+	return ResponseEntity.ok().body(listaDto);
 	}
 	
 	private void montarDescricaoDto(Transacao transacao) {

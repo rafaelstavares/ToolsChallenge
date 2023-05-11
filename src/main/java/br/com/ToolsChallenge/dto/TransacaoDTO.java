@@ -1,5 +1,7 @@
 package br.com.ToolsChallenge.dto;
 
+import br.com.ToolsChallenge.transacao.Transacao;
+
 public class TransacaoDTO {
 
 	private long id;
@@ -23,6 +25,11 @@ public class TransacaoDTO {
 		super();
 	}
 
+	public TransacaoDTO(Transacao transacao) {
+		this.id = transacao.getId();
+		this.cartao = transacao.getCartao();
+	}
+	
 	public long getId() {
 		return id;
 	}

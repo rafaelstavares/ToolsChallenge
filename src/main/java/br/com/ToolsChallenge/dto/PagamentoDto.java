@@ -4,8 +4,6 @@ public class PagamentoDto {
 
 	TransacaoDTO transacao;
 
-	
-	
 	public PagamentoDto(TransacaoDTO transacao) {
 		super();
 		this.transacao = transacao;
@@ -22,5 +20,5 @@ public class PagamentoDto {
 	public void setTransacao(TransacaoDTO transacao) {
 		this.transacao = transacao;
 	}
-	
+
 }

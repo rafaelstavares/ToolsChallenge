@@ -1,5 +1,7 @@
 package br.com.ToolsChallenge.transacao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,8 @@ public class TransacaoServico {
 	Transacao transacao;
 
 	Descricao descricao;
+	
+	List<Transacao> lista;
 
 	FormaPagamento formaPagamento;
 
@@ -41,6 +45,11 @@ public class TransacaoServico {
 	public Transacao buscarPorId(Long id) {
 		transacao = transacaoRepositorio.buscarPorId(id);
 		return transacao;
+	}
+
+	public List<Transacao> listarTodos() {
+		lista = transacaoRepositorio.findAll();
+		return lista;
 	};
 
 }
