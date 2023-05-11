@@ -9,6 +9,7 @@ import br.com.ToolsChallenge.descricao.Descricao;
 import br.com.ToolsChallenge.descricao.DescricaoServico;
 import br.com.ToolsChallenge.formaPagamento.FormaPagamento;
 import br.com.ToolsChallenge.formaPagamento.FormaPagamentoServico;
+import br.com.ToolsChallenge.util.Status;
 
 @Service
 public class TransacaoServico {
@@ -50,6 +51,13 @@ public class TransacaoServico {
 	public List<Transacao> listarTodos() {
 		lista = transacaoRepositorio.findAll();
 		return lista;
+	}
+
+	public Transacao estornoPagamento(Long id) {
+		transacao = transacaoRepositorio.buscarPorId(id);
+		transacao.getDescricao().setStatus(Status.CANCELADO);
+		transacao = transacaoRepositorio.save(transacao);
+		return transacao;
 	};
 
 }

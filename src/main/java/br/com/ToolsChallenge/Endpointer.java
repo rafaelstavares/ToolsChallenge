@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -81,6 +82,21 @@ public class Endpointer {
 			listaDto.add(pagamentoDto);
 		}
 	return ResponseEntity.ok().body(listaDto);
+	}
+	
+	@PostMapping("/pagamento/estorno")
+	public ResponseEntity<PagamentoDto> estornoPagamento(@RequestParam Long id) {
+		transacao = transacaoServico.estornoPagamento(id);
+		PagamentoDto pagamentoDto = new PagamentoDto();
+		TransacaoDTO transacaoDTO = new TransacaoDTO();
+		montarDescricaoDto(transacao);
+		montaFormaPagamentoDto(transacao);
+		transacaoDTO.setCartao(transacao.getCartao());
+		transacaoDTO.setId(transacao.getId());
+		transacaoDTO.setDescricaoDto(descricaoDto);
+		transacaoDTO.setFormaPagamentoDto(formaPagamentoDto);
+		pagamentoDto.setTransacao(transacaoDTO);
+	return ResponseEntity.ok().body(pagamentoDto);
 	}
 	
 	private void montarDescricaoDto(Transacao transacao) {
