@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.function.EntityResponse;
 
+import br.com.ToolsChallenge.dto.DescricaoDto;
+import br.com.ToolsChallenge.dto.FormaPagamentoDto;
 import br.com.ToolsChallenge.dto.PagamentoDto;
 import br.com.ToolsChallenge.dto.TransacaoDTO;
 import br.com.ToolsChallenge.transacao.Transacao;
@@ -23,10 +25,23 @@ public class Endpointer {
 	
 	Transacao transacao;
 	
-	@PostMapping("/transacao")
-	public Transacao addTransacao(@RequestBody Transacao t) {
-		transacaoServico.addTransacao(t);
-	return t;
+	DescricaoDto descricaoDto;
+	
+	FormaPagamentoDto formaPagamentoDto;
+	
+	@PostMapping("/pagamento")
+	public ResponseEntity<PagamentoDto> addTransacao(@RequestBody Transacao t) {
+		PagamentoDto pagamentoDto = new PagamentoDto();
+		TransacaoDTO transacaoDTO = new TransacaoDTO();
+		transacao = transacaoServico.addTransacao(t);
+		montarDescricaoDto(transacao);
+		montaFormaPagamentoDto(transacao);
+		transacaoDTO.setCartao(t.getCartao());
+		transacaoDTO.setId(t.getId());
+		transacaoDTO.setDescricaoDto(descricaoDto);
+		transacaoDTO.setFormaPagamentoDto(formaPagamentoDto);
+		pagamentoDto.setTransacao(transacaoDTO);
+	return ResponseEntity.ok().body(pagamentoDto);
 	}
 	
 	@PostMapping("/transacao2")
@@ -34,8 +49,24 @@ public class Endpointer {
 		PagamentoDto pagamentoDto = new PagamentoDto();
 		TransacaoDTO transacaoDTO = new TransacaoDTO();
 		transacaoDTO.setCartao(t.getCartao());
+		transacaoDTO.setId(t.getId());
 		pagamentoDto.setTransacao(transacaoDTO);
 	return ResponseEntity.ok().body(pagamentoDto);
 	}
-
+	
+	private void montarDescricaoDto(Transacao transacao) {
+		descricaoDto = new DescricaoDto();
+		descricaoDto.setValor(transacao.getDescricao().getValor());
+		descricaoDto.setDataHora(transacao.getDescricao().getDataHora());
+		descricaoDto.setEstabelecimento(transacao.getDescricao().getEstabelecimento());
+		descricaoDto.setNsu(transacao.getDescricao().getNsu());
+		descricaoDto.setCodigoAutorizacao(transacao.getDescricao().getCodigoAutorizacao());
+		descricaoDto.setStatus(transacao.getDescricao().getStatus().getNome());
+	}
+	private void montaFormaPagamentoDto(Transacao transacao) {
+		formaPagamentoDto = new FormaPagamentoDto();
+		formaPagamentoDto.setTipo(transacao.getFormaPagamento().getTipo());
+		formaPagamentoDto.setParcelas(transacao.getFormaPagamento().getParcelas());
+		
+	}
 }

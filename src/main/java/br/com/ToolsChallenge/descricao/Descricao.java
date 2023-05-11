@@ -3,7 +3,6 @@ package br.com.ToolsChallenge.descricao;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,10 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import br.com.ToolsChallenge.formaPagamento.FormaPagamento;
 import br.com.ToolsChallenge.transacao.Transacao;
+import br.com.ToolsChallenge.util.Status;
 
 @Entity
 public class Descricao {
@@ -30,18 +28,53 @@ public class Descricao {
 
 	private String estabelecimento;
 
+	private Long nsu;
+
+	private Long codigoAutorizacao;
+
+	private Status status;
+
 	@OneToOne
 	Transacao transacao;
 
 	public Descricao() {
 	}
 
-	public Descricao(Long id, BigDecimal valor, Date dataHora, String estabelecimento, Transacao transacao) {
+	public Descricao(Long id, BigDecimal valor, Date dataHora, String estabelecimento, Long nsu, Long codigoAutorizacao,
+			Status status, Transacao transacao) {
+		super();
 		this.id = id;
 		this.valor = valor;
 		this.dataHora = dataHora;
 		this.estabelecimento = estabelecimento;
+		this.nsu = nsu;
+		this.codigoAutorizacao = codigoAutorizacao;
+		this.status = status;
 		this.transacao = transacao;
+	}
+
+	public Long getNsu() {
+		return nsu;
+	}
+
+	public void setNsu(Long nsu) {
+		this.nsu = nsu;
+	}
+
+	public Long getCodigoAutorizacao() {
+		return codigoAutorizacao;
+	}
+
+	public void setCodigoAutorizacao(Long codigoAutorizacao) {
+		this.codigoAutorizacao = codigoAutorizacao;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public Long getId() {

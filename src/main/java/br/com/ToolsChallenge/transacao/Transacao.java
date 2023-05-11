@@ -12,27 +12,32 @@ import br.com.ToolsChallenge.formaPagamento.FormaPagamento;
 
 @Entity
 public class Transacao {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-	
+	private long cod_transacao;
+
 	private String cartao;
-	
-	@OneToOne(mappedBy = "transacao" , cascade = CascadeType.ALL)
+
+	private long id;
+
+	@OneToOne(mappedBy = "transacao", cascade = CascadeType.ALL)
 	private Descricao descricao;
-	
-	@OneToOne(mappedBy = "transacao" , cascade = CascadeType.ALL)
+
+	@OneToOne(mappedBy = "transacao", cascade = CascadeType.ALL)
 	private FormaPagamento formaPagamento;
 
 	public Transacao() {
 //		super();
 	}
 
-	public Transacao(long id, String cartao , Descricao descricao, FormaPagamento formaPagamento) {
-		this.id = id;
+	public Transacao(long cod_transacao, String cartao, long id, Descricao descricao, FormaPagamento formaPagamento) {
+		super();
+		this.cod_transacao = cod_transacao;
 		this.cartao = cartao;
+		this.id = id;
 		this.descricao = descricao;
+		this.formaPagamento = formaPagamento;
 	}
 
 	public long getId() {
@@ -41,6 +46,14 @@ public class Transacao {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public long getCod_transacao() {
+		return cod_transacao;
+	}
+
+	public void setCod_transacao(long cod_transacao) {
+		this.cod_transacao = cod_transacao;
 	}
 
 	public String getCartao() {
@@ -66,6 +79,5 @@ public class Transacao {
 	public void setFormaPagamento(FormaPagamento formaPagamento) {
 		this.formaPagamento = formaPagamento;
 	}
-	
-	
+
 }

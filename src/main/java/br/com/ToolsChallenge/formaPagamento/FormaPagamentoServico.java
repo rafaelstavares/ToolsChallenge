@@ -10,12 +10,13 @@ public class FormaPagamentoServico {
 
 	@Autowired
 	FormaPagamentoRepositorio formaPagamentoRepositorio;
-	
+
 	FormaPagamento formaPagamento;
-	
-	public void addFormaPagamento(FormaPagamento f,Transacao t) {
+
+	public FormaPagamento addFormaPagamento(FormaPagamento f, Transacao t) {
 		formaPagamento = f;
 		formaPagamento.setTransacao(t);
-		formaPagamentoRepositorio.save(formaPagamento);
+		formaPagamento = formaPagamentoRepositorio.save(formaPagamento);
+		return formaPagamento;
 	}
 }
