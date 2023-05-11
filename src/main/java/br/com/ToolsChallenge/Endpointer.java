@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,10 +44,10 @@ public class Endpointer {
 		montaFormaPagamentoDto(transacao);
 		transacaoDTO.setCartao(t.getCartao());
 		transacaoDTO.setId(t.getId());
-		transacaoDTO.setDescricaoDto(descricaoDto);
-		transacaoDTO.setFormaPagamentoDto(formaPagamentoDto);
+		transacaoDTO.setDescricao(descricaoDto);
+		transacaoDTO.setFormaPagamento(formaPagamentoDto);
 		pagamentoDto.setTransacao(transacaoDTO);
-	return ResponseEntity.ok().body(pagamentoDto);
+	return new ResponseEntity<PagamentoDto>(pagamentoDto,HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/pagamento")
@@ -59,8 +59,8 @@ public class Endpointer {
 		montaFormaPagamentoDto(transacao);
 		transacaoDTO.setCartao(transacao.getCartao());
 		transacaoDTO.setId(transacao.getId());
-		transacaoDTO.setDescricaoDto(descricaoDto);
-		transacaoDTO.setFormaPagamentoDto(formaPagamentoDto);
+		transacaoDTO.setDescricao(descricaoDto);
+		transacaoDTO.setFormaPagamento(formaPagamentoDto);
 		pagamentoDto.setTransacao(transacaoDTO);
 	return ResponseEntity.ok().body(pagamentoDto);
 	}
@@ -76,8 +76,8 @@ public class Endpointer {
 			montaFormaPagamentoDto(transacao);
 			transacaoDTO.setCartao(transacao.getCartao());
 			transacaoDTO.setId(transacao.getId());
-			transacaoDTO.setDescricaoDto(descricaoDto);
-			transacaoDTO.setFormaPagamentoDto(formaPagamentoDto);
+			transacaoDTO.setDescricao(descricaoDto);
+			transacaoDTO.setFormaPagamento(formaPagamentoDto);
 			pagamentoDto.setTransacao(transacaoDTO);
 			listaDto.add(pagamentoDto);
 		}
@@ -93,8 +93,8 @@ public class Endpointer {
 		montaFormaPagamentoDto(transacao);
 		transacaoDTO.setCartao(transacao.getCartao());
 		transacaoDTO.setId(transacao.getId());
-		transacaoDTO.setDescricaoDto(descricaoDto);
-		transacaoDTO.setFormaPagamentoDto(formaPagamentoDto);
+		transacaoDTO.setDescricao(descricaoDto);
+		transacaoDTO.setFormaPagamento(formaPagamentoDto);
 		pagamentoDto.setTransacao(transacaoDTO);
 	return ResponseEntity.ok().body(pagamentoDto);
 	}
