@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import br.com.ToolsChallenge.transacao.Transacao;
+import br.com.ToolsChallenge.util.Tipo;
 
 @Entity
 public class FormaPagamento {
@@ -15,7 +16,7 @@ public class FormaPagamento {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private String tipo;
+	private Tipo tipo;
 	
 	private int parcelas;
 	
@@ -26,7 +27,7 @@ public class FormaPagamento {
 
 	}
 
-	public FormaPagamento(Long id,String tipo, int parcelas, Transacao transacao) {
+	public FormaPagamento(Long id,Tipo tipo, int parcelas, Transacao transacao) {
 		this.id = id;
 		this.tipo = tipo;
 		this.parcelas = parcelas;
@@ -43,11 +44,11 @@ public class FormaPagamento {
 		this.id = id;
 	}
 
-	public String getTipo() {
+	public Tipo getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(String tipo) {
+	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
 	}
 

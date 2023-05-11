@@ -65,7 +65,7 @@ public class Endpointer {
 	}
 	private void montaFormaPagamentoDto(Transacao transacao) {
 		formaPagamentoDto = new FormaPagamentoDto();
-		formaPagamentoDto.setTipo(transacao.getFormaPagamento().getTipo());
+		formaPagamentoDto.setTipo(transacao.getFormaPagamento().getTipo().getNome());
 		formaPagamentoDto.setParcelas(transacao.getFormaPagamento().getParcelas());
 		
 	}
