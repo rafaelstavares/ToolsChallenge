@@ -23,7 +23,7 @@ public class Descricao {
 
 	private BigDecimal valor;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss", locale = "pt_br")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="dd-MM-yyyy HH:mm:ss")
 	private Date dataHora;
 
 	private String estabelecimento;
@@ -37,16 +37,6 @@ public class Descricao {
 	@OneToOne
 	Transacao transacao;
 
-	public Descricao(Long i, BigDecimal j, String s, Long k, Long l, Status autorizado, Object object) {
-		this.id = i;
-		this.valor = j;
-		this.estabelecimento = s;
-		this.nsu = k;
-		this.codigoAutorizacao = l;
-		this.status = autorizado;
-		this.transacao = (Transacao) object;
-	}
-
 	public Descricao(Long id, BigDecimal valor, Date dataHora, String estabelecimento, Long nsu, Long codigoAutorizacao,
 			Status status, Transacao transacao) {
 		super();
@@ -59,6 +49,12 @@ public class Descricao {
 		this.status = status;
 		this.transacao = transacao;
 	}
+	
+	public Descricao() {
+		super();
+	}
+
+
 
 	public Long getNsu() {
 		return nsu;
