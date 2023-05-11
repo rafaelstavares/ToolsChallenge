@@ -37,7 +37,14 @@ public class Descricao {
 	@OneToOne
 	Transacao transacao;
 
-	public Descricao() {
+	public Descricao(Long i, BigDecimal j, String s, Long k, Long l, Status autorizado, Object object) {
+		this.id = i;
+		this.valor = j;
+		this.estabelecimento = s;
+		this.nsu = k;
+		this.codigoAutorizacao = l;
+		this.status = autorizado;
+		this.transacao = (Transacao) object;
 	}
 
 	public Descricao(Long id, BigDecimal valor, Date dataHora, String estabelecimento, Long nsu, Long codigoAutorizacao,
