@@ -3,6 +3,8 @@ package br.com.ToolsChallenge;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,17 +28,18 @@ public class Endpointer {
 
 	@Autowired
 	TransacaoServico transacaoServico;
-	
+
 	Transacao transacao;
-	
+
 	DescricaoDto descricaoDto;
-	
+
 	FormaPagamentoDto formaPagamentoDto;
-	
+
 	List<Transacao> lista;
-	
+
 	@PostMapping("/pagamento")
-	public ResponseEntity<PagamentoDto> addTransacao(@RequestBody Transacao t) {
+	public ResponseEntity<PagamentoDto> addTransacao(@Valid @RequestBody Transacao t) throws Exception {
+		validaJson(t);
 		PagamentoDto pagamentoDto = new PagamentoDto();
 		TransacaoDTO transacaoDTO = new TransacaoDTO();
 		transacao = transacaoServico.addTransacao(t);
@@ -47,9 +50,9 @@ public class Endpointer {
 		transacaoDTO.setDescricao(descricaoDto);
 		transacaoDTO.setFormaPagamento(formaPagamentoDto);
 		pagamentoDto.setTransacao(transacaoDTO);
-	return new ResponseEntity<PagamentoDto>(pagamentoDto,HttpStatus.CREATED);
+		return new ResponseEntity<PagamentoDto>(pagamentoDto, HttpStatus.CREATED);
 	}
-	
+
 	@GetMapping("/pagamento")
 	public ResponseEntity<PagamentoDto> buscarPagamentoId(@RequestParam Long id) {
 		transacao = transacaoServico.buscarPorId(id);
@@ -62,12 +65,12 @@ public class Endpointer {
 		transacaoDTO.setDescricao(descricaoDto);
 		transacaoDTO.setFormaPagamento(formaPagamentoDto);
 		pagamentoDto.setTransacao(transacaoDTO);
-	return ResponseEntity.ok().body(pagamentoDto);
+		return ResponseEntity.ok().body(pagamentoDto);
 	}
-	
+
 	@GetMapping("/pagamento/todos")
 	public ResponseEntity<List<PagamentoDto>> listarTodos() {
-	List<PagamentoDto> listaDto = new ArrayList<>();
+		List<PagamentoDto> listaDto = new ArrayList<>();
 		lista = transacaoServico.listarTodos();
 		for (Transacao transacao : lista) {
 			PagamentoDto pagamentoDto = new PagamentoDto();
@@ -81,9 +84,9 @@ public class Endpointer {
 			pagamentoDto.setTransacao(transacaoDTO);
 			listaDto.add(pagamentoDto);
 		}
-	return ResponseEntity.ok().body(listaDto);
+		return ResponseEntity.ok().body(listaDto);
 	}
-	
+
 	@PostMapping("/pagamento/estorno")
 	public ResponseEntity<PagamentoDto> estornoPagamento(@RequestParam Long id) {
 		transacao = transacaoServico.estornoPagamento(id);
@@ -96,9 +99,9 @@ public class Endpointer {
 		transacaoDTO.setDescricao(descricaoDto);
 		transacaoDTO.setFormaPagamento(formaPagamentoDto);
 		pagamentoDto.setTransacao(transacaoDTO);
-	return ResponseEntity.ok().body(pagamentoDto);
+		return ResponseEntity.ok().body(pagamentoDto);
 	}
-	
+
 	private void montarDescricaoDto(Transacao transacao) {
 		descricaoDto = new DescricaoDto();
 		descricaoDto.setValor(transacao.getDescricao().getValor());
@@ -108,10 +111,24 @@ public class Endpointer {
 		descricaoDto.setCodigoAutorizacao(transacao.getDescricao().getCodigoAutorizacao());
 		descricaoDto.setStatus(transacao.getDescricao().getStatus().getNome());
 	}
+
 	private void montaFormaPagamentoDto(Transacao transacao) {
 		formaPagamentoDto = new FormaPagamentoDto();
 		formaPagamentoDto.setTipo(transacao.getFormaPagamento().getTipo().getNome());
 		formaPagamentoDto.setParcelas(transacao.getFormaPagamento().getParcelas());
-		
+
 	}
+	
+	private void validaJson(Transacao t) throws Exception {
+		String cartao = t.getCartao();
+		Long id = t.getId();
+		if (cartao.isEmpty()|cartao.isBlank()) {
+			throw new Exception("Campo Cartao em Branco");
+			}
+			if (id < 1) {
+				throw new Exception("Campo ID zerado");
+			}
+
+		}
+	
 }

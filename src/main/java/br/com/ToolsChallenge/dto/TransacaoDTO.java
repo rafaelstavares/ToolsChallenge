@@ -1,18 +1,20 @@
 package br.com.ToolsChallenge.dto;
 
+import javax.validation.constraints.NotEmpty;
+
 import br.com.ToolsChallenge.transacao.Transacao;
 
 public class TransacaoDTO {
 
 	private long id;
-	
+
+	@NotEmpty
 	private String cartao;
-	
+
 	private DescricaoDto descricao;
-	
+
 	private FormaPagamentoDto formaPagamento;
-	
-	
+
 	public TransacaoDTO(long id, String cartao, DescricaoDto descricao, FormaPagamentoDto formaPagamento) {
 		super();
 		this.id = id;
@@ -29,7 +31,7 @@ public class TransacaoDTO {
 		this.id = transacao.getId();
 		this.cartao = transacao.getCartao();
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -61,6 +63,5 @@ public class TransacaoDTO {
 	public void setFormaPagamento(FormaPagamentoDto formaPagamentoDto) {
 		this.formaPagamento = formaPagamentoDto;
 	}
-	
-	
+
 }

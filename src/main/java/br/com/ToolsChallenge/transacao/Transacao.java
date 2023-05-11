@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
 
 import br.com.ToolsChallenge.descricao.Descricao;
 import br.com.ToolsChallenge.formaPagamento.FormaPagamento;
@@ -16,7 +17,8 @@ public class Transacao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long cod_transacao;
-
+	
+	@NotBlank
 	private String cartao;
 
 	private long id;
